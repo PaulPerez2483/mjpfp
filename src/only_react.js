@@ -2,53 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Link, HashRouter } from "react-router-dom";
-import { createStore } from 'redux';
-import { Search } from './search'
-
-// action -> links
-const next = () => {
-    return {
-        type: 'NEXT'
-    }
-}
-
-const prev = () => {
-    return {
-        type: 'PREV'
-    }
-}
-
-const click = (x) => {
-    console.log('on click show me ID:', x)
-    return {
-        type: 'CLICK',
-        payLoad: x
-    }
-}
-
-
-// reducer ->  base on the action it will modify the store 
-let onReload = window.location.hash.slice(window.location.hash.indexOf('/') + 1) * 1;
-console.log(onReload)
-const link = (state = 0, action) => {
-    switch (action.type) {
-        case "NEXT":
-            return state + 1;
-        case "PREV":
-            return state - 1;
-        case "CLICK":
-            return state = action.payLoad
-        default:
-            return state = onReload;
-    }
-}
-
-const store = createStore(link);
-
-
-//dispatch -> execution the action  and update the store
-store.subscribe(() => console.log('line 38', store.getState()));
-
 // console.log(axios)
 
 const tools = {
@@ -60,7 +13,6 @@ const tools = {
 
 const { Component, render, rootEl, employees } = tools;
 
-
 class App extends Component {
     constructor() {
         super();
@@ -68,43 +20,33 @@ class App extends Component {
             estado: false,
             count: null,
             data: [],
-            currentPage: store.getState(),
+            currentPage: 0,
             usersPerPage: 50
         }
-        this.deleteMe = this.deleteMe.bind(this)
     }
 
     componentDidMount() {
         let { currentPage } = this.state;
-        console.log('line 68', currentPage)
         axios.get(`${employees}${currentPage}`)
-            .then(response => this.setState({ count: response.data.count, data: response.data.rows, estado: true }))
+            .then(response => this.setState({ currentPage: currentPage, count: response.data.count, data: response.data.rows, estado: true }))
             .catch(err => console.log(err));
     }
 
     clickCurrentPage(event) {
         this.setState({
-            // currentPage: event.target.id * 1
-            currentPage: store.dispatch(click(event.target.id * 1))
+            currentPage: event.target.id * 1
         });
         axios.get(`${employees}${event.target.id * 1}`)
             .then(response => this.setState({ data: response.data.rows }))
             .catch(err => console.log(err));
 
     }
-    deleteMe({ user }) {
-        console.log(user);
-        console.log('line 97', this.state.data);
-        this.setState({ data: this.state.data.filter(_user => _user.id !== user.id) })
-        axios.delete(`/api/employees/${user.id}`)
-
-    }
 
     goBack() {
-        const currentPage = store.getState();
+        const { currentPage } = this.state;
         console.log(currentPage)
         if (currentPage !== 0) {
-            store.dispatch(prev())
+            this.setState({ currentPage: currentPage - 1 });
             axios.get(`${employees}${currentPage}`)
                 .then(response => this.setState({ data: response.data.rows }))
                 .catch(err => console.log(err));
@@ -113,13 +55,10 @@ class App extends Component {
     }
 
     goForward() {
-        const { count, usersPerPage } = this.state;
-        const currentPage = store.getState();
+        const { currentPage, count, usersPerPage } = this.state;
         let numsOfLinks = Math.floor(count / usersPerPage);
-
-        console.log('dadsdas', currentPage, numsOfLinks)
-        if (currentPage < numsOfLinks) {
-            store.dispatch(next())
+        if (currentPage !== numsOfLinks) {
+            this.setState({ currentPage: currentPage + 1 });
             axios.get(`${employees}${currentPage}`)
                 .then(response => this.setState({ data: response.data.rows }))
                 .catch(err => console.log(err));
@@ -128,13 +67,12 @@ class App extends Component {
     }
 
     render() {
-        const { estado, count, data, usersPerPage } = this.state;
-        const currentPage = store.getState();
+        const { estado, count, data, currentPage, usersPerPage } = this.state;
         if (!estado) {
             return null
         }
         // console.log('count', count);
-        // console.log('data', data);
+        console.log('data', data);
         console.log('currentPage', currentPage);
         // console.log('usersPerPage', usersPerPage);
         let numsOfLinks = Math.floor(count / usersPerPage);
@@ -146,8 +84,6 @@ class App extends Component {
         return (
             <div>
                 <div className='nav-holder'>
-                    <Search data={data} />
-
                     <HashRouter>
                         <nav>
                             <Link to={`${currentPage}`} onClick={this.goBack.bind(this)}><i class="fa fa-chevron-left"></i></Link>
@@ -170,13 +106,11 @@ class App extends Component {
                                 <div>{user.firstName}</div>
                                 <div>{user.lastName}</div>
                                 <div>{user.email}</div>
-                                <div>{user.title}
-                                    <button onClick={() => this.deleteMe({ user })}><i class="fa fa-user-times"></i></button>
-                                </div>
-
+                                <div>{user.title}</div>
                             </div>
                         )
                     })}
+
                 </div>
             </div>
 

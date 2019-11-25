@@ -60,6 +60,41 @@ const tools = {
 
 const { Component, render, rootEl, employees } = tools;
 
+class ShowData extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+        this.deleteMe = this.deleteMe.bind(this)
+    }
+    async deleteMe({ ...x }) {
+        console.log(x.id);
+        await axios.delete(`/api/events/${id}`);
+
+    }
+
+    render() {
+        console.log('line 70', this.props.data)
+        return (
+            this.props.data.map(user => {
+                return (
+                    <div className="header">
+                        <div>{user.firstName}</div>
+                        <div>{user.lastName}</div>
+                        <div>{user.email}</div>
+                        <div>{user.title}
+                            <button onClick={() => this.deleteMe({ ...user })}>x</button>
+                        </div>
+
+                    </div>
+                )
+            })
+
+        )
+    }
+}
+
 
 class App extends Component {
     constructor() {
@@ -71,7 +106,6 @@ class App extends Component {
             currentPage: store.getState(),
             usersPerPage: 50
         }
-        this.deleteMe = this.deleteMe.bind(this)
     }
 
     componentDidMount() {
@@ -90,13 +124,6 @@ class App extends Component {
         axios.get(`${employees}${event.target.id * 1}`)
             .then(response => this.setState({ data: response.data.rows }))
             .catch(err => console.log(err));
-
-    }
-    deleteMe({ user }) {
-        console.log(user);
-        console.log('line 97', this.state.data);
-        this.setState({ data: this.state.data.filter(_user => _user.id !== user.id) })
-        axios.delete(`/api/employees/${user.id}`)
 
     }
 
@@ -164,19 +191,7 @@ class App extends Component {
                         <div>Email</div>
                         <div>Title</div>
                     </div>
-                    {data.map(user => {
-                        return (
-                            <div className="header">
-                                <div>{user.firstName}</div>
-                                <div>{user.lastName}</div>
-                                <div>{user.email}</div>
-                                <div>{user.title}
-                                    <button onClick={() => this.deleteMe({ user })}><i class="fa fa-user-times"></i></button>
-                                </div>
-
-                            </div>
-                        )
-                    })}
+                    <ShowData data={data} />
                 </div>
             </div>
 

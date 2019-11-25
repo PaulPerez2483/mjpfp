@@ -1,6 +1,6 @@
 const { app } = require('./app');
 const { db } = require('./db/index.js');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Do not touch this file
 db.sync()

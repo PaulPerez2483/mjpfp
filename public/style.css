@@ -1,90 +1,161 @@
-body{
-    font-family: 'Montserrat', sans-serif;
-}
-a{
-    color: #282726;
-}
-#root{
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-.nav-holder{
-    width: 750px;
-    display: flex;
-    justify-content: flex-end;
+body {
+	font-family: "Montserrat", sans-serif;
+	background-color: #eeede9;
 }
 
-.search{
-    flex: 1;
-}
-input[type=text] {
-    width: 64%;
-    box-sizing: border-box;
-    margin-top: -10px;
-    padding: 13px 20px;
+.container {
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+	margin: 2%;
+	color: white;
 }
 
-nav > a {
-    border: 1px solid lightgrey;
-    padding: 10px;
-    cursor: pointer;
+h1 {
+	font-size: 25px;
+	color: dimgray;
+	padding: 40px 45px 0px 0px;
+	width: 100%;
+	text-align: right;
+}
+.container > div:first-child {
+	width: 43%;
+	background-color: #f38989;
 }
 
-nav > a:hover{
-    background-color: #a7414a;
-    color: white;
-    border: 2px solid white;
+.container > div:last-child {
+	width: 53%;
+	background-color: white;
+}
 
+.table {
+	display: table;
+	text-align: center;
+	width: 100%;
+	border-collapse: separate;
+	font-weight: bold;
+	margin: 0px 15px 15px 0px;
 }
-.active{
-    background-color: lightgray;
+
+.theader {
+	display: table-row;
 }
+
+.table_header {
+	display: table-cell;
+	color: dimgray;
+	padding-top: 10px;
+	font-weight: bold;
+	padding: 15px 38px;
+}
+
+.months {
+	display: flex;
+	color: dimgray;
+	list-style-type: none;
+	font-size: 10px;
+	justify-content: space-around;
+	width: 100%;
+	padding: 0px 26px 0px 20px;
+	margin: 0px;
+}
+
 .selected {
-    background-color: #a7414a;
-    color: white;
-    border: 2px solid white;
-
+	font-size: 11px;
+	font-weight: bold;
+	color: black;
 }
 
-.data-holder{
-    margin-top: 25px;
-    border: 1px solid lightgray;
-    display: table;
-    width: 800px;
-    padding: 5px;
-
-}
-.header {
-    display: table-row;
-
-}
-.data-holder > .header:first-child{
-    font-weight: bold;
-}
-.header:nth-child(even){
-    background-color: #6a8a82;
-    color:white;
+.info-holder {
+	margin: 52px 0px 0px 50px;
+	letter-spacing: 1px;
 }
 
-
-.header > div {
-    display: table-cell;
-    padding: 5px;
+h2 {
+	padding: 0;
+	margin: 0;
 }
 
-button {
-    border: 1px solid lightgrey;
-    padding: 3px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #a7414a;
-    float: right;
+.month-info {
+	font-size: 35px;
 }
 
-button:hover{
-    color: white;
-    background-color: #a7414a;
+.cl-day {
+	margin: 0;
+	padding: 14px 39px 21px 39px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	color: dimgray;
+	list-style-type: none;
+}
+
+.cl-day > li {
+	width: 338px;
+	padding: 1em;
+	border: 1px solid lightgrey;
+}
+
+span.day::before {
+}
+span.dayMas {
+}
+
+.currentDay {
+	background-color: #e2e2e2;
+	color: white;
+}
+
+.cl-day > li:hover {
+	background-color: #e2e2e2;
+	color: white;
+	cursor: pointer;
+}
+
+.months > li {
+	cursor: pointer;
+}
+
+.red,
+.yellow,
+.blue,
+.green {
+	padding: 6px;
+	color: black;
+	border-radius: 5px;
+	text-align: center;
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.red {
+	background-color: red;
+}
+
+.yellow {
+	background-color: yellow;
+}
+
+.blue {
+	background-color: rgb(96, 96, 195);
+}
+
+.green {
+	background-color: aquamarine;
+}
+
+.float-left {
+	position: absolute;
+	float: left;
+	top: 74px;
+	left: 73px;
+}
+
+.likeH1 {
+	font-size: 25px;
+}
+
+.largeDay {
+	margin-left: 10px;
+	font-size: 35px;
 }
